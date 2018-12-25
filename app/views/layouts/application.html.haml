@@ -1,13 +1,20 @@
 !!!
 %html
-%head
-  %title TaskRabbit
-  = csrf_meta_tags
-  = csp_meta_tag
+  %head
+    %title TaskRabbit
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
 
-  = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-  = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-%body
-  - Category.all.each do |category|
-    = link_to category.name, tasks_path(category: category.name)
-  = yield
+  %body
+    %nav.navbar.navbar-default
+      .container
+        .navbar-brand Task Rabbit
+        %ul.nav.navbar-nav
+          %li= link_to "All Tasks", root_path
+          - Category.all.each do |category|
+            %li= link_to category.name, tasks_path(category: category.name)
+        = link_to "New task", new_task_path, class: "navbar-text navbar-right navbar-link"
+    .container
+      .col-md-8.col-md-offset-2
+        = yield
